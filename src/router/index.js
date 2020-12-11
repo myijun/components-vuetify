@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router';
 import layer from './layer';
+import table from './table'
 Vue.use(Router)
 
 const RouterModel = new Router({
-    mode: 'history',    
-    routes: [...layer]
+    mode: 'history',
+    routes: [...layer, ...table]
 })
 
 // RouterModel.beforeEach((to, from, next) => {
