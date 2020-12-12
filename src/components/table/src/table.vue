@@ -54,13 +54,13 @@
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
 
+    <!--  -->
+
     <template v-slot:no-data>
       <v-btn color="primary" @click="__construct">重试</v-btn>
     </template>
 
     
-
-
   </v-data-table>
 </template>
 

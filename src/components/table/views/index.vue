@@ -1,11 +1,8 @@
 <template>
   <div>
     <extable action="assets/json/table.json">
-      <template v-slot:top>
-        
-      </template>
+      <template v-slot:top></template>
     </extable>
-    <extable action="assets/json/table2.json"></extable>
   </div>
 </template>
 <script>
@@ -20,6 +17,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    deleteItem(item) {
+      console.log(item);
+    }
   },
   name: "view-table",
   components: {
