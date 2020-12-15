@@ -1,5 +1,5 @@
 import { xConfirm } from "../../layer/src/layer";
-
+import qs from 'qs'
 class proxyTable {
 
     constructor(config) {
@@ -16,12 +16,21 @@ class proxyTable {
         console.log(item, this);
     }
 
+    /**
+     * 
+     * @param {Object} item  删除项目
+     */
     async deleteItem(item) {
         xConfirm().then((v) => {
             if (!v) {
                 return false;
             }
-            console.log(item, this, v);
+            this.$http.post(
+                this.$http.post(
+                    this.config.delURL,
+                    qs.stringify(item)
+                )
+            );
         });
     }
 
@@ -34,10 +43,12 @@ class proxyTable {
         this.pullData(1);
     }
 
-
+    /**
+     * 获取数据
+     */
     async pullData() {
         const { data } = await this.$http.get(
-            this.config.action
+            this.config.getURL
         );
         this.items = data;
         if (this.headers.length || !this.items.length) {

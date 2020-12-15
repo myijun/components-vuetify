@@ -2,7 +2,6 @@
   <div>
     <!-- <x-data-table action="assets/json/table.json"></x-data-table> -->
 
-
     <!-- start:表单列表功能 -->
     <v-data-table
       :headers="table.headers"
@@ -17,14 +16,11 @@
           <v-toolbar-title>编辑/新增</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <!-- start toolbar  -->
-          <slot name="toolbar">
-            <v-dialog v-model="table.dialog" max-width="500px">
-              <template #activator="{ on, attrs }">
-                <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">添加数据</v-btn>
-              </template>
-            </v-dialog>
-          </slot>
+          <v-dialog v-model="table.dialog" max-width="500px">
+            <template #activator="{ on, attrs }">
+              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">添加数据</v-btn>
+            </template>
+          </v-dialog>
         </v-toolbar>
       </template>
       <template #item.actions="{ item }">
@@ -35,10 +31,8 @@
         <v-btn color="primary" @click="table.pullData">重试</v-btn>
       </template>
     </v-data-table>
+
     <!-- end:表单功能 -->
-
-
-
 
     <!-- <ex-table action="assets/json/table.json">
       <template v-slot:item.name="{ item }">
@@ -50,8 +44,10 @@
 <script>
 import proxyTable from "../src/proxyTable";
 import Vue from "vue";
+
 let table = new proxyTable({
-  action: "assets/json/table.json",
+  getURL: "assets/json/table.json",
+  delURL: "assets/json/table.json",
   $http: Vue.prototype.$http
 });
 
