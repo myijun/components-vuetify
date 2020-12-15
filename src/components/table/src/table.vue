@@ -49,9 +49,20 @@
     </slot>
     <!-- end slot -->
 
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+    <!-- <template v-for="(headerItem) in (tableHeader== false ? defaultTableHeader : tableHead) " v-slot:>
+      <slot :name="'item.'+headerItem.value" :slot="'item.'+headerItem.value"></slot>
+    </template>-->
+
+    <template
+      v-for="(headerItem) in (tableHeader== false ? defaultTableHeader : tableHead) "
+      v-slot:[(fieldPlaceholder+headerItem.value)]="{item}"
+    >
+      <slot
+        :name="[(fieldPlaceholder+field)]"
+        :item="item"
+        :header="headerItem"
+        :setting="(tableHeader== false ? defaultTableHeader : tableHead)"
+      >{{item[headerItem.value]}}</slot>
     </template>
 
     <!--  -->
@@ -59,8 +70,6 @@
     <template v-slot:no-data>
       <v-btn color="primary" @click="__construct">重试</v-btn>
     </template>
-
-    
   </v-data-table>
 </template>
 
@@ -85,6 +94,8 @@ export default {
   },
   data() {
     return {
+      field: "carbs",
+      fieldPlaceholder: "item.",
       dialog: false,
       dialogDelete: false,
       defaultTableHeader: [{ text: "id", value: "id", default: true }],
@@ -127,11 +138,13 @@ export default {
       this.editedIndex = this.tableData.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
+      this.$emit("deleteItem");
     },
     editItem(item) {
       this.editedIndex = this.tableData.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.$emit("editItem");
     },
     __construct() {
       this.pullData();
