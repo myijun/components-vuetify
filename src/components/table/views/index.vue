@@ -23,17 +23,24 @@
           </v-dialog>
         </v-toolbar>
       </template>
+
       <template #item.actions="{ item }">
         <v-icon small class="mr-2" @click="table.editItem(item)">mdi-pencil</v-icon>
         <v-icon small @click="table.deleteItem(item)">mdi-delete</v-icon>
       </template>
+
+      <template #item.thumb="{ item }">
+        <img :src="item.thumb" alt />
+      </template>
+
       <template #no-data>
         <v-btn color="primary" @click="table.pullData">重试</v-btn>
       </template>
+
     </v-data-table>
 
     <!-- end:表单功能 -->
-
+    <input type="text" style="background:red" v-model="table.chooseIndex" />
     <!-- <ex-table action="assets/json/table.json">
       <template v-slot:item.name="{ item }">
         <v-chip :color="getColor(item.calories)" dark>{{ item.calories }}</v-chip>
@@ -46,22 +53,31 @@ import proxyTable from "../src/proxyTable";
 import Vue from "vue";
 
 let table = new proxyTable({
-  getURL: "assets/json/table.json",
+  getURL:
+    "https://www.fastmock.site/mock/496f07e3a4c2fb5cf51acbac5a6f0d0e/fcmi/estate/list",
   delURL: "assets/json/table.json",
-  $http: Vue.prototype.$http
+  $http: Vue.prototype.$http,
+  pullDataBefore: vm => {
+    return {
+      size: table.pageSize,
+      uuid: vm.uuid
+    };
+  }
 });
 
 export default {
   data() {
     return {
       desserts: [],
-      table: table
+      table: table,
+      uuid: 123
     };
   },
   mounted() {
     this.$nextTick(() => {
       this.table.mounted();
     });
+    table.bind(this);
   },
   methods: {
     deleteItem(item) {
