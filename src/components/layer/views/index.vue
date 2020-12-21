@@ -9,7 +9,7 @@ import alerts from "../src/layer.js";
 export default {
   data() {
     return {
-      dialog: false
+      dialog: Object
     };
   },
   name: "layer",

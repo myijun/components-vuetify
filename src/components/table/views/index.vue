@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <x-data-table action="assets/json/table.json"></x-data-table> -->
-
+    <input type="text" style="background:red" v-model="table.chooseIndex" />
     <!-- start:表单列表功能 -->
     <v-data-table
       :headers="table.headers"
@@ -12,7 +12,7 @@
       class="elevation-1"
     >
       <template #top>
-        <v-toolbar flat>
+        <!-- <v-toolbar flat>
           <v-toolbar-title>编辑/新增</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
@@ -21,7 +21,8 @@
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">添加数据</v-btn>
             </template>
           </v-dialog>
-        </v-toolbar>
+        </v-toolbar>-->
+        <m-table-top :table="table"></m-table-top>
       </template>
 
       <template #item.actions="{ item }">
@@ -36,26 +37,21 @@
       <template #no-data>
         <v-btn color="primary" @click="table.pullData">重试</v-btn>
       </template>
-
     </v-data-table>
 
     <!-- end:表单功能 -->
-    <input type="text" style="background:red" v-model="table.chooseIndex" />
-    <!-- <ex-table action="assets/json/table.json">
-      <template v-slot:item.name="{ item }">
-        <v-chip :color="getColor(item.calories)" dark>{{ item.calories }}</v-chip>
-      </template>
-    </ex-table>-->
   </div>
 </template>
 <script>
 import proxyTable from "../src/proxyTable";
 import Vue from "vue";
+import MTableTop from "../src/MTableTop";
 
 let table = new proxyTable({
   getURL:
     "https://www.fastmock.site/mock/496f07e3a4c2fb5cf51acbac5a6f0d0e/fcmi/estate/list",
-  delURL: "assets/json/table.json",
+  delURL:
+    "https://www.fastmock.site/mock/496f07e3a4c2fb5cf51acbac5a6f0d0e/fcmi/normal/remove",
   $http: Vue.prototype.$http,
   pullDataBefore: vm => {
     return {
@@ -88,10 +84,9 @@ export default {
     }
   },
   name: "view-table",
-  computed: {
-    // items() {
-    //   return table.items;
-    // }
+  computed: {},
+  components: {
+    MTableTop
   }
 };
 </script>
