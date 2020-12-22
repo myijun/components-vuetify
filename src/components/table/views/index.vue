@@ -12,17 +12,18 @@
       class="elevation-1"
     >
       <template #top>
-        <!-- <v-toolbar flat>
-          <v-toolbar-title>编辑/新增</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog v-model="table.dialog" max-width="500px">
-            <template #activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">添加数据</v-btn>
-            </template>
-          </v-dialog>
-        </v-toolbar>-->
-        <m-table-top :table="table"></m-table-top>
+        <m-table-top :table="table">
+          <template #card>
+            <v-row>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field v-model="table.editedItem.title" label="title"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field v-model="table.editedItem.price" label="price"></v-text-field>
+              </v-col>
+            </v-row>
+          </template>
+        </m-table-top>
       </template>
 
       <template #item.actions="{ item }">
@@ -31,7 +32,9 @@
       </template>
 
       <template #item.thumb="{ item }">
-        <img :src="item.thumb" alt />
+        <a :href="item.thumb" target="block">
+          <img :src="item.thumb" :alt="item.title" :title="item.title" />
+        </a>
       </template>
 
       <template #no-data>
@@ -44,7 +47,6 @@
 </template>
 <script>
 import proxyTable from "../src/proxyTable";
-import Vue from "vue";
 import MTableTop from "../src/MTableTop";
 
 let table = new proxyTable({
@@ -52,7 +54,6 @@ let table = new proxyTable({
     "https://www.fastmock.site/mock/496f07e3a4c2fb5cf51acbac5a6f0d0e/fcmi/estate/list",
   delURL:
     "https://www.fastmock.site/mock/496f07e3a4c2fb5cf51acbac5a6f0d0e/fcmi/normal/remove",
-  $http: Vue.prototype.$http,
   pullDataBefore: vm => {
     return {
       size: table.pageSize,
@@ -66,7 +67,7 @@ export default {
     return {
       desserts: [],
       table: table,
-      uuid: 123
+      uuid: 123123123
     };
   },
   mounted() {

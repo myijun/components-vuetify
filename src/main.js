@@ -6,7 +6,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import axios from 'axios'
 import qs from 'qs'
-
+import proxyTable from './components/table/src/proxyTable';
 
 // 请求头拦截
 axios.interceptors.request.use(config => {
@@ -22,7 +22,11 @@ axios.interceptors.response.use(config => {
 Vue.prototype.$http = axios
 Vue.prototype.$qs = qs
 
+
 Vue.config.productionTip = false
+
+
+proxyTable.$http = Vue.prototype.$http;
 
 new Vue({
   vuetify,

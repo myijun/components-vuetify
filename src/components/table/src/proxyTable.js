@@ -2,7 +2,10 @@ import { xConfirm, xError } from "../../layer/src/layer";
 import qs from 'qs'
 import MRequest from "../../../Maa/MRequest";
 
+
 class proxyTable {
+
+    static $http;
 
     constructor(config) {
         this.config = Object.assign({
@@ -21,14 +24,41 @@ class proxyTable {
         }, config);
         this.headers = this.config.headers;
         this.items = [];
-        this.$http = config.$http;
+        this.$http = proxyTable.$http;
         this.pageSize = 15;
         this.total = 1000;
         this.page = 1;
-        this.dialog;
+        this.dialog = false;
         this.vm = undefined;
         this.chooseItem = undefined;
         this.chooseIndex = undefined;
+        let that = this;
+        let headline = new Proxy({}, {
+            get: function (obj, prop) {
+                if(prop == 'title')
+                {          
+                              
+                    return Object.keys(that.editedItem).length >0?"编辑":"新增";    
+                }                
+            }
+        });
+        this.headline = headline;
+        this.editedItem = {};
+
+
+    }
+    /**
+     * 
+     */
+    onCancel() {
+        this.editedItem = {};
+        this.dialog = false;
+    }
+    /**
+     * 
+     */
+    onSave() {
+
     }
 
     async editItem(item) {
@@ -36,7 +66,8 @@ class proxyTable {
         for (let i of this.items) {
             if (i == item) {
                 this.chooseIndex = index;
-                this.chooseItem = i;
+                this.editedItem = this.chooseItem = i;
+                this.dialog = true;
                 break;
             }
             index++;
